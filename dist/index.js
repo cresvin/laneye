@@ -28,10 +28,27 @@ async function calculateFileExtensionsPercentages(dir) {
     const files = await listAllFiles(dir);
     const extensionCount = {};
     let totalFiles = files.length;
+    // prettier-ignore
+    const ignoredExtensions = new Set([
+        'png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico', 'heic', 'raw',
+        // Audio
+        'mp3', 'wav', 'flac', 'aac', 'ogg', 'wma', 'm4a', 'aiff', 'alac',
+        // Video
+        'mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm', 'm4v', '3gp',
+        // Documents
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp',
+        // Archives/Compressed
+        'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'iso',
+        // System/Configuration
+        'exe', 'dll', 'sys', 'ini', 'bat', 'sh', 'log', 'tmp', 'bak',
+        // Fonts
+        'ttf', 'otf', 'woff', 'woff2', 'eot'
+    ]);
     files.forEach((file) => {
-        const ext = getFileExtension(file);
-        if (ext) {
+        const ext = getFileExtension(file).toLowerCase();
+        if (ext && !ignoredExtensions.has(ext)) {
             extensionCount[ext] = (extensionCount[ext] || 0) + 1;
+            totalFiles++;
         }
     });
     for (const [ext, count] of Object.entries(extensionCount)) {
