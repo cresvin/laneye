@@ -39,38 +39,85 @@ async function listAllFiles(dir: string) {
 async function calculateFileExtensionsPercentages(dir: string) {
   const files = await listAllFiles(dir);
   const extensionCount: { [key: string]: number } = {};
-  let totalFiles = files.length;
+  let totalFiles = 0; // Start at 0, as we'll increment only for non-ignored files.
 
-  // prettier-ignore
   const ignoredExtensions = new Set([
-    'png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico', 'heic', 'raw',
-    
-    // Audio
-    'mp3', 'wav', 'flac', 'aac', 'ogg', 'wma', 'm4a', 'aiff', 'alac',
-    
-    // Video
-    'mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm', 'm4v', '3gp',
-    
-    // Documents
-    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp',
-    
-    // Archives/Compressed
-    'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'iso',
-    
-    // System/Configuration
-    'exe', 'dll', 'sys', 'ini', 'bat', 'sh', 'log', 'tmp', 'bak',
-    
-    // Fonts
-    'ttf', 'otf', 'woff', 'woff2', 'eot'
+    "png",
+    "jpg",
+    "jpeg",
+    "gif",
+    "bmp",
+    "svg",
+    "webp",
+    "tiff",
+    "ico",
+    "heic",
+    "raw",
+    "mp3",
+    "wav",
+    "flac",
+    "aac",
+    "ogg",
+    "wma",
+    "m4a",
+    "aiff",
+    "alac",
+    "mp4",
+    "mkv",
+    "avi",
+    "mov",
+    "wmv",
+    "flv",
+    "webm",
+    "m4v",
+    "3gp",
+    "pdf",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "ppt",
+    "pptx",
+    "odt",
+    "ods",
+    "odp",
+    "zip",
+    "rar",
+    "7z",
+    "tar",
+    "gz",
+    "bz2",
+    "xz",
+    "iso",
+    "exe",
+    "dll",
+    "sys",
+    "ini",
+    "bat",
+    "sh",
+    "log",
+    "tmp",
+    "bak",
+    "ttf",
+    "otf",
+    "woff",
+    "woff2",
+    "eot",
   ]);
 
   files.forEach((file) => {
     const ext = getFileExtension(file).toLowerCase();
     if (ext && !ignoredExtensions.has(ext)) {
       extensionCount[ext] = (extensionCount[ext] || 0) + 1;
-      totalFiles++;
+      totalFiles++; // Increment only for non-ignored extensions
     }
   });
+
+  // If totalFiles is zero (which shouldn't happen here), handle it gracefully
+  if (totalFiles === 0) {
+    console.log(chalk.red("No files with counted extensions found."));
+    return;
+  }
 
   for (const [ext, count] of Object.entries(extensionCount)) {
     const percentage = ((count / totalFiles) * 100).toFixed();
