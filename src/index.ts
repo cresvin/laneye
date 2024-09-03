@@ -17,11 +17,20 @@ function getFileExtension(filename: string) {
 async function listAllFiles(dir: string) {
   let result: string[] = [];
   const files = await fs.readdir(dir, { withFileTypes: true });
+  const ignoredDirectories = new Set([
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "out",
+  ]);
 
   for (const file of files) {
     const filePath = path.join(dir, file.name);
     if (file.isDirectory()) {
-      result = result.concat(await listAllFiles(filePath));
+      if (!ignoredDirectories.has(file.name)) {
+        result = result.concat(await listAllFiles(filePath));
+      }
     } else {
       result.push(filePath);
     }
