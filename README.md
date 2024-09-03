@@ -9,6 +9,8 @@ Laneye is a CLI tool that analyzes a project directory to determine the percenta
 - Recursively traverses directories to list all files.
 - Calculates the percentage distribution of programming languages based on file extensions.
 - Excludes common media, document, and system files to focus on code files.
+- Supports excluding specific directories from the analysis.
+- Provides accurate percentage calculation even for single file scenarios, ensuring proper representation of code files.
 
 ## Installation
 
@@ -23,16 +25,24 @@ npm i -g laneye
 To use Laneye, run the command with the path to the directory you want to analyze:
 
 ```bash
-laneye <directory>
+laneye <directory> <ignored_directories>
 ```
 
-For example:
+## Examples
+
+Analyze a directory:
 
 ```bash
 laneye ./my-project
 ```
 
-This command will output the percentage of different programming languages used in the specified directory.
+Analyze a directory while excluding specific subdirectories:
+
+```bash
+laneye ./my-project node_modules,dist
+```
+
+This command will output the percentage of different programming languages used in the specified directory, ignoring any files in the listed directories.
 
 ## Support
 

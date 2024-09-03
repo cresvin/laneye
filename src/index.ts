@@ -6,7 +6,9 @@ import path from "path";
 
 const dir = process.argv[2];
 const timestamp = Date.now();
-const ignoredDirectories = process.argv[3]?.split(" ") || [];
+const ignoredDirectories = process.argv[3]
+  ? process.argv[3].split(/[, ]+/).filter((dir) => dir !== "")
+  : [];
 
 if (!dir) {
   throw new Error("no directory provided");
@@ -41,68 +43,15 @@ async function calculateFileExtensionsPercentages(dir: string) {
   const extensionCount: { [key: string]: number } = {};
   let totalFiles = 0; // Start at 0, as we'll increment only for non-ignored files.
 
+  // prettier-ignore
   const ignoredExtensions = new Set([
-    "png",
-    "jpg",
-    "jpeg",
-    "gif",
-    "bmp",
-    "svg",
-    "webp",
-    "tiff",
-    "ico",
-    "heic",
-    "raw",
-    "mp3",
-    "wav",
-    "flac",
-    "aac",
-    "ogg",
-    "wma",
-    "m4a",
-    "aiff",
-    "alac",
-    "mp4",
-    "mkv",
-    "avi",
-    "mov",
-    "wmv",
-    "flv",
-    "webm",
-    "m4v",
-    "3gp",
-    "pdf",
-    "doc",
-    "docx",
-    "xls",
-    "xlsx",
-    "ppt",
-    "pptx",
-    "odt",
-    "ods",
-    "odp",
-    "zip",
-    "rar",
-    "7z",
-    "tar",
-    "gz",
-    "bz2",
-    "xz",
-    "iso",
-    "exe",
-    "dll",
-    "sys",
-    "ini",
-    "bat",
-    "sh",
-    "log",
-    "tmp",
-    "bak",
-    "ttf",
-    "otf",
-    "woff",
-    "woff2",
-    "eot",
+    'png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico', 'heic', 'raw',
+    'mp3', 'wav', 'flac', 'aac', 'ogg', 'wma', 'm4a', 'aiff', 'alac',
+    'mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm', 'm4v', '3gp',
+    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp',
+    'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'iso',
+    'exe', 'dll', 'sys', 'ini', 'bat', 'sh', 'log', 'tmp', 'bak',
+    'ttf', 'otf', 'woff', 'woff2', 'eot'
   ]);
 
   files.forEach((file) => {
@@ -126,9 +75,8 @@ async function calculateFileExtensionsPercentages(dir: string) {
 }
 
 (async () => {
-  const spinner = createSpinner(`Analyzing...`).start();
+  const spinner = createSpinner(`Analyzing...\n`).start();
   await sleep(500);
-  console.log("");
   try {
     await calculateFileExtensionsPercentages(dir);
     console.log(
