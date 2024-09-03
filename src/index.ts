@@ -79,13 +79,6 @@ async function calculateFileExtensionsPercentages(dir: string) {
   await sleep(500);
   try {
     await calculateFileExtensionsPercentages(dir);
-    console.log(
-      chalk.gray(
-        `• Ignored directories: ${
-          ignoredDirectories.length > 0 ? ignoredDirectories.join(", ") : "none"
-        }`
-      )
-    );
     spinner.success({ text: `Done in ${Date.now() - timestamp}ms` });
   } catch (err) {
     if (err instanceof Error) {
