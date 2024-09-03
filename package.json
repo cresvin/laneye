@@ -5,7 +5,8 @@
   "bin": "./dist/index.js",
   "description": "A CLI tool that analyzes a project directory to determine the percentage of different programming languages used, by examining file extensions and excluding common non-code files.",
   "scripts": {
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "buiid": "tsc"
   },
   "repository": "https://github.com/cresvin/laneye.git",
   "files": [
