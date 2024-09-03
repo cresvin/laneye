@@ -6,6 +6,7 @@ import path from "path";
 
 const dir = process.argv[2];
 const timestamp = Date.now();
+const ignoredDirectories = process.argv[3]?.split(" ") || [];
 
 if (!dir) {
   throw new Error("no directory provided");
@@ -19,18 +20,12 @@ async function listAllFiles(dir: string) {
   let result: string[] = [];
 
   const files = await fs.readdir(dir, { withFileTypes: true });
-  const ignoredDirectories = new Set([
-    "node_modules",
-    ".git",
-    "dist",
-    "build",
-    "out",
-  ]);
+  const ignoredDirectoriesSet = new Set(ignoredDirectories);
 
   for (const file of files) {
     const filePath = path.join(dir, file.name);
     if (file.isDirectory()) {
-      if (!ignoredDirectories.has(file.name)) {
+      if (!ignoredDirectoriesSet.has(file.name)) {
         result = result.concat(await listAllFiles(filePath));
       }
     } else {
@@ -84,11 +79,18 @@ async function calculateFileExtensionsPercentages(dir: string) {
 }
 
 (async () => {
-  const spinner = createSpinner(`Checking ${dir}...`).start();
+  const spinner = createSpinner(`Analyzing...`).start();
   await sleep(500);
   console.log("");
   try {
     await calculateFileExtensionsPercentages(dir);
+    console.log(
+      chalk.gray(
+        `• Ignored directories: ${
+          ignoredDirectories.length > 0 ? ignoredDirectories.join(", ") : "none"
+        }`
+      )
+    );
     spinner.success({ text: `Done in ${Date.now() - timestamp}ms` });
   } catch (err) {
     if (err instanceof Error) {

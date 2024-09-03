@@ -1,6 +1,6 @@
 {
   "name": "laneye",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "bin": "./dist/index.js",
   "description": "A CLI tool that analyzes a project directory to determine the percentage of different programming languages used, by examining file extensions and excluding common non-code files.",
