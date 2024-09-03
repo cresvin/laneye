@@ -1,5 +1,7 @@
 # 👁️ Laneye
 
+![showcase gif](./.github/assets/showcase.gif)
+
 Laneye is a CLI tool that analyzes a project directory to determine the percentage of different programming languages used, based on file extensions. It excludes common non-code files like images, documents, and system files, focusing solely on source code files.
 
 ## Features
@@ -32,22 +34,9 @@ laneye ./my-project
 
 This command will output the percentage of different programming languages used in the specified directory.
 
-## Example Output
+## Support
 
-```bash
-╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼
-
-✨ Here is the result
-
-💨 js | 45%
-💨 ts | 35%
-💨 css | 10%
-💨 html | 10%
-
-🔥 Done in 123ms
-
-╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼
-```
+If you want to support my work, you can [buy me a coffee](https://www.buymeacoffee.com/cresvin) ☕
 
 ## License
 
