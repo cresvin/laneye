@@ -46,7 +46,7 @@ This command will output the percentage of different programming languages used 
 
 ## Support
 
-If you want to support my work, you can [buy me a coffee](https://www.buymeacoffee.com/cresvin) ☕
+If you want to support my work, you can [buy me a coffee](https://www.buymeacoffee.com/cresvinn) ☕
 
 ## License
 
