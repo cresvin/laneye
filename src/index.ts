@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import chalk from "chalk";
 import fs from "fs/promises";
+import { createSpinner } from "nanospinner";
 import path from "path";
 
 const dir = process.argv[2];
@@ -16,6 +17,7 @@ function getFileExtension(filename: string) {
 
 async function listAllFiles(dir: string) {
   let result: string[] = [];
+
   const files = await fs.readdir(dir, { withFileTypes: true });
   const ignoredDirectories = new Set([
     "node_modules",
@@ -77,16 +79,24 @@ async function calculateFileExtensionsPercentages(dir: string) {
 
   for (const [ext, count] of Object.entries(extensionCount)) {
     const percentage = ((count / totalFiles) * 100).toFixed();
-    console.log(
-      "💨 " + chalk.cyan(`${ext}`) + " | " + chalk.cyanBright(`${percentage}%`)
-    );
+    console.log(chalk.magentaBright(`│ ${ext} → ${percentage}%`));
   }
 }
 
 (async () => {
-  console.log("╼".repeat(50));
-  console.log("\n✨ Here is the result\n");
-  await calculateFileExtensionsPercentages(dir);
-  console.log(`\n🔥 Done in ${Date.now() - timestamp}ms\n`);
-  console.log("╼".repeat(50));
+  const spinner = createSpinner(`Checking ${dir}...`).start();
+  await sleep(500);
+  console.log("");
+  try {
+    await calculateFileExtensionsPercentages(dir);
+    spinner.success({ text: `Done in ${Date.now() - timestamp}ms` });
+  } catch (err) {
+    if (err instanceof Error) {
+      spinner.error({ text: `Error: ${err.message}` });
+    }
+  }
 })();
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
